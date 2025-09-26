@@ -1,10 +1,34 @@
-scripts:
-  - name: Download project zip
-    script: |
-      wget -O project.zip "https://drive.google.com/uc?export=download&id=1Ym-2BMJhggei0I4iVkumfy8h3PK1liBP"
-      unzip -o project.zip -d project
-      cd project
-      flutter pub get
-      flutter build apk --release
-artifacts:
-  - build/**/outputs/**/*.apk
+workflows:
+  build_flutter_android:
+    name: Build Flutter Android APK
+    max_build_duration: 60
+    environment:
+      flutter: stable
+    scripts:
+      - name: Download project zip
+        script: |
+          set -e
+          echo "Downloading project ZIP..."
+          wget -O project.zip "https://drive.google.com/uc?export=download&id=1Ym-2BMJhggei0I4iVkumfy8h3PK1liBP"
+          unzip -o project.zip -d project
+          echo "Moving source into build directory..."
+          rsync -a project/ $CM_BUILD_DIR/
+
+      - name: Get Flutter packages
+        script: |
+          cd $CM_BUILD_DIR
+          flutter pub get
+
+      - name: Build release APK
+        script: |
+          cd $CM_BUILD_DIR
+          flutter build apk --release
+
+      - name: Copy APK to export directory
+        script: |
+          mkdir -p $CM_EXPORT_DIR
+          cp build/app/outputs/flutter-apk/app-release.apk $CM_EXPORT_DIR/
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
+      - $CM_EXPORT_DIR/**
