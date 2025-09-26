@@ -1,0 +1,10 @@
+scripts:
+  - name: Download project zip
+    script: |
+      wget -O project.zip "https://drive.google.com/uc?export=download&id=1Ym-2BMJhggei0I4iVkumfy8h3PK1liBP"
+      unzip -o project.zip -d project
+      cd project
+      flutter pub get
+      flutter build apk --release
+artifacts:
+  - build/**/outputs/**/*.apk
