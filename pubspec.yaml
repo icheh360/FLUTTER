@@ -33,3 +33,11 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+dependency_overrides:
+  image_gallery_saver:
+    git:
+      url: https://github.com/hui-z/image_gallery_saver.git
+      ref: master
+
+
