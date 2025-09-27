@@ -23,7 +23,7 @@ dev_dependencies:
   image: ^4.0.17
   flutter_isolate: ^2.0.1
   path_provider: ^2.0.14
-  image_gallery_saver: ^1.7.1
+  image_gallery_saver: ^2.0.3
 
   
 
@@ -31,4 +31,5 @@ dev_dependencies:
 
 
 flutter:
+
   uses-material-design: true
